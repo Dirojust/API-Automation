@@ -6,7 +6,6 @@ import requests
 
 from utils.logger import get_logger
 from config.config import url_base, auth_params
-from dotenv import load_dotenv
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 

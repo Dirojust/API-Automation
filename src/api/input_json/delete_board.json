@@ -1,0 +1,14 @@
+{
+  "body": {
+    "type": "object",
+    "properties": {
+      "_value": {
+        "type": "null"
+      }
+    },
+    "required": ["_value"],
+    "additionalProperties": false
+  },
+  "status_code": 200,
+  "headers": {}
+}
