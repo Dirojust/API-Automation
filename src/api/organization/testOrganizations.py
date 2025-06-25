@@ -52,6 +52,7 @@ class TestOrganizations:
         assert response["status_code"] == 200
         assert "id" in response_json
         assert response_json["displayName"] == "Organization from Pycharm"
+        self.validate.validate_response(response, "create_organization")
 
     def test_get_organization(self, create_organization, test_log_name):
         """
@@ -76,6 +77,7 @@ class TestOrganizations:
 
         # assertion
         assert response["status_code"] == 200
+        self.validate.validate_response(response, "get_organization")
 
     def test_update_organization(self, create_organization, test_log_name):
         """
@@ -108,6 +110,7 @@ class TestOrganizations:
         assert response["status_code"] == 200
         assert "id" in response_json
         assert response_json["displayName"] == "Organization from Pycharm - UPDATED :)"
+        self.validate.validate_response(response, "update_organization")
 
     def test_delete_organization(self, create_organization, test_log_name):
         """
@@ -128,6 +131,7 @@ class TestOrganizations:
 
         # assertion
         assert response["status_code"] == 200
+        self.validate.validate_response(response, "delete_organization")
 
     @classmethod
     def teardown_class(cls):

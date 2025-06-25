@@ -1,0 +1,46 @@
+{
+  "body": {
+    "type": "object",
+    "properties": {
+      "displayName": {
+        "type": "string",
+        "minLength": 1
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "desc": {
+        "type": "string"
+      },
+      "website": {
+        "type": "string",
+        "format": "uri"
+      },
+      "privacy": {
+        "type": "string",
+        "enum": ["public", "private", "org"]
+      },
+      "prefs_permissionLevel": {
+        "type": "string",
+        "enum": ["public", "private", "org"]
+      },
+      "prefs_boardVisibilityRestrict_private": {
+        "type": "string",
+        "enum": ["admin", "org", "public"]
+      },
+      "prefs_boardVisibilityRestrict_org": {
+        "type": "string",
+        "enum": ["admin", "org", "public"]
+      },
+      "prefs_boardVisibilityRestrict_public": {
+        "type": "string",
+        "enum": ["admin", "org", "public"]
+      }
+    },
+    "required": ["displayName", "name"],
+    "additionalProperties": false
+  },
+  "status_code": 200,
+  "headers": {}
+}
