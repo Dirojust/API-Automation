@@ -8,7 +8,7 @@ from helper.validate_Response import ValidateResponse
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 
-class TestBoards:
+class TestOrganizations:
     @classmethod
     def setup_class(cls):
         """
@@ -16,28 +16,28 @@ class TestBoards:
         :return:
         """
         # Arrange
-        cls.boardId_list = []
+        cls.organizationId_list = []
         cls.rest_client = RestClient()
         cls.validate = ValidateResponse()
 
-    def test_create_board(self, test_log_name):
+    def test_create_organization(self, test_log_name):
         """
-        Test for create a board
+        Test for create an organization
         :param test_log_name:  log the test name
         """
         # body
         request_body = {
-            "name": "Board from Pycharm :)"
+            "displayName": "Organization from Pycharm"
         }
 
-        # url for create the board
-        url_create_board = f"{url_base}boards"
-        LOGGER.debug(f"url_create_board: {url_create_board}")
+        # url for create the organization
+        url_create_organization = f"{url_base}organizations"
+        LOGGER.debug(f"url_create_organization: {url_create_organization}")
 
         # call POST endpoint
         response = self.rest_client.send_request(
             method_name="POST",
-            url=url_create_board,
+            url=url_create_organization,
             params=auth_params,
             body=request_body
         )
@@ -46,27 +46,27 @@ class TestBoards:
         LOGGER.debug("Response: %s", json.dumps(response_json, indent=4))
         LOGGER.debug("Status Code: %s", response["status_code"])
 
-        self.boardId_list.append(response_json["id"])
+        self.organizationId_list.append(response_json["id"])
 
         # assertion
         assert response["status_code"] == 200
         assert "id" in response_json
-        assert response_json["name"] == "Board from Pycharm :)"
+        assert response_json["displayName"] == "Organization from Pycharm"
 
-    def test_get_board(self, create_board, test_log_name):
+    def test_get_organization(self, create_organization, test_log_name):
         """
-        Test for get a board
-        :param create_board:   (str) Id of the board
+        Test for get a organization
+        :param create_organization:   (str) Id of the organization
         :param test_log_name:    (str) log the test name
         """
-        # url for get the board
-        url_get_board = f"{url_base}boards/{create_board}"
-        LOGGER.debug(f"url_get_board: {url_get_board}")
+        # url for get the organization
+        url_get_organization = f"{url_base}organizations/{create_organization}"
+        LOGGER.debug(f"url_get_organization: {url_get_organization}")
 
         # call GET endpoint
         response = self.rest_client.send_request(
             method_name="GET",
-            url=url_get_board,
+            url=url_get_organization,
             params=auth_params
         )
 
@@ -77,25 +77,25 @@ class TestBoards:
         # assertion
         assert response["status_code"] == 200
 
-    def test_update_board(self, create_board, test_log_name):
+    def test_update_organization(self, create_organization, test_log_name):
         """
-        Test for update a board
-        :param create_board: (str) Id of the board
+        Test for update an organization
+        :param create_organization: (str) Id of the organization
         :param test_log_name:  (str) log the test name
         """
         # body
         resquest_body = {
-            "name": "Board from Pycharm - UPDATED :)"
+            "displayName": "Organization from Pycharm - UPDATED :)"
         }
 
-        # url for update the board
-        url_update_board = f"{url_base}boards/{create_board}"
-        LOGGER.debug(f"url_update_board: {url_update_board}")
+        # url for update the organization
+        url_update_organization = f"{url_base}organizations/{create_organization}"
+        LOGGER.debug(f"url_update_organization: {url_update_organization}")
 
         # call PUT endpoint
         response = self.rest_client.send_request(
             method_name="PUT",
-            url=url_update_board,
+            url=url_update_organization,
             params=auth_params,
             body=resquest_body
         )
@@ -107,27 +107,27 @@ class TestBoards:
         # assertion
         assert response["status_code"] == 200
         assert "id" in response_json
-        assert response_json["name"] == "Board from Pycharm - UPDATED :)"
+        assert response_json["displayName"] == "Organization from Pycharm - UPDATED :)"
 
-    def test_delete_board(self, create_board, test_log_name):
+    def test_delete_organization(self, create_organization, test_log_name):
         """
-        Test for delete a board
-        :param create_board:  (str) Id of the board
+        Test for delete a organization
+        :param create_organization:  (str) Id of the organization
         :param test_log_name:   (str) log the test name
         """
-        # url for delete the board
-        url_delete_board = f"{url_base}boards/{create_board}"
-        LOGGER.debug(f"url_delete_board: {url_delete_board}")
+        # url for delete the organization
+        url_delete_organization = f"{url_base}organizations/{create_organization}"
+        LOGGER.debug(f"url_delete_organization: {url_delete_organization}")
 
         # call DELETE endpoint
         response = self.rest_client.send_request(
             method_name="DELETE",
-            url=url_delete_board,
+            url=url_delete_organization,
             params=auth_params
         )
 
         # assertion
-        self.validate.validate_response(response, "delete_board")
+        assert response["status_code"] == 200
 
     @classmethod
     def teardown_class(cls):
@@ -135,15 +135,15 @@ class TestBoards:
         Clean up after all tests
         :return:
         """
-        # Cleanup boards
-        LOGGER.info("Test Boards teardown Class")
-        for board_id in cls.boardId_list:
-            url_delete_board = f"{url_base}boards/{board_id}"
-            LOGGER.debug(f"url_delete_board: {url_delete_board}")
+        # Cleanup organizations
+        LOGGER.info("Test organization teardown Class")
+        for organization_id in cls.organizationId_list:
+            url_delete_organization = f"{url_base}organizations/{organization_id}"
+            LOGGER.debug(f"url_delete_organization: {url_delete_organization}")
             response = requests.delete(
-                url=url_delete_board,
+                url=url_delete_organization,
                 params=auth_params
             )
             LOGGER.debug("Status Code: %s", str(response.status_code))
             if response.status_code == 200:
-                LOGGER.debug("Board deleted")
+                LOGGER.debug("Organization deleted")
