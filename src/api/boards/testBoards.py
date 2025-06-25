@@ -52,6 +52,7 @@ class TestBoards:
         assert response["status_code"] == 200
         assert "id" in response_json
         assert response_json["name"] == "Board from Pycharm :)"
+        self.validate.validate_response(response, "create_board")
 
     def test_get_board(self, create_board, test_log_name):
         """
@@ -76,6 +77,7 @@ class TestBoards:
 
         # assertion
         assert response["status_code"] == 200
+        self.validate.validate_response(response, "get_board")
 
     def test_update_board(self, create_board, test_log_name):
         """
@@ -108,6 +110,7 @@ class TestBoards:
         assert response["status_code"] == 200
         assert "id" in response_json
         assert response_json["name"] == "Board from Pycharm - UPDATED :)"
+        self.validate.validate_response(response, "update_board")
 
     def test_delete_board(self, create_board, test_log_name):
         """
