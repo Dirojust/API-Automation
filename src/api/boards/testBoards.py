@@ -1,5 +1,7 @@
 import json
 import logging
+import allure
+import pytest
 import requests
 from utils.logger import get_logger
 from config.config import url_base, auth_params
@@ -8,6 +10,8 @@ from helper.validate_Response import ValidateResponse
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 
+@allure.story("Boards")
+@allure.parent_suite("Boards")
 class TestBoards:
     @classmethod
     def setup_class(cls):
@@ -20,6 +24,11 @@ class TestBoards:
         cls.rest_client = RestClient()
         cls.validate = ValidateResponse()
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Create Board")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_create_board(self, test_log_name):
         """
         Test for create a board
@@ -54,6 +63,11 @@ class TestBoards:
         assert response_json["name"] == "Board from Pycharm :)"
         self.validate.validate_response(response, "create_board")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Get Board")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_get_board(self, create_board, test_log_name):
         """
         Test for get a board
@@ -79,6 +93,11 @@ class TestBoards:
         assert response["status_code"] == 200
         self.validate.validate_response(response, "get_board")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Update Board")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_update_board(self, create_board, test_log_name):
         """
         Test for update a board
@@ -112,6 +131,11 @@ class TestBoards:
         assert response_json["name"] == "Board from Pycharm - UPDATED :)"
         self.validate.validate_response(response, "update_board")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Delete Board")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_delete_board(self, create_board, test_log_name):
         """
         Test for delete a board
@@ -134,6 +158,11 @@ class TestBoards:
 
 
     #Functional tests
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Create Board Without Body")
+    @allure.tag("functional", "negative")
+    @allure.label("owner", "Diana Rojas")
     def test_create_board_without_body(self, test_log_name):
         """
         Test for create a board without body

@@ -1,5 +1,7 @@
 import json
 import logging
+import allure
+import pytest
 import requests
 from utils.logger import get_logger
 from config.config import url_base, auth_params
@@ -8,6 +10,8 @@ from helper.validate_Response import ValidateResponse
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 
+@allure.story("Organization")
+@allure.parent_suite("Organization")
 class TestOrganizations:
     @classmethod
     def setup_class(cls):
@@ -20,6 +24,11 @@ class TestOrganizations:
         cls.rest_client = RestClient()
         cls.validate = ValidateResponse()
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Create Organization")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_create_organization(self, test_log_name):
         """
         Test for create an organization
@@ -54,6 +63,11 @@ class TestOrganizations:
         assert response_json["displayName"] == "Organization from Pycharm"
         self.validate.validate_response(response, "create_organization")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Get Organization")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_get_organization(self, create_organization, test_log_name):
         """
         Test for get an organization
@@ -79,6 +93,11 @@ class TestOrganizations:
         assert response["status_code"] == 200
         self.validate.validate_response(response, "get_organization")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Update Organization")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_update_organization(self, create_organization, test_log_name):
         """
         Test for update an organization
@@ -112,6 +131,11 @@ class TestOrganizations:
         assert response_json["displayName"] == "Organization from Pycharm - UPDATED :)"
         self.validate.validate_response(response, "update_organization")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Delete Organization")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_delete_organization(self, create_organization, test_log_name):
         """
         Test for delete an organization
@@ -134,6 +158,11 @@ class TestOrganizations:
         self.validate.validate_response(response, "delete_organization")
 
     # Functional tests
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Create Organization Without Body")
+    @allure.tag("functional", "negative")
+    @allure.label("owner", "Diana Rojas")
     def test_create_organization_without_body(self, test_log_name):
         """
         Test for create an organization without body

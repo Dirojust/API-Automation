@@ -1,5 +1,7 @@
 import json
 import logging
+import allure
+import pytest
 from utils.logger import get_logger
 from config.config import url_base, auth_params
 from helper.rest_client import RestClient
@@ -7,6 +9,8 @@ from helper.validate_Response import ValidateResponse
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 
+@allure.story("Cards")
+@allure.parent_suite("Cards")
 class TestCards:
     @classmethod
     def setup_class(cls):
@@ -18,6 +22,11 @@ class TestCards:
         cls.rest_client = RestClient()
         cls.validate = ValidateResponse()
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Create Card")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_create_card(self, test_log_name, create_list):
         """
         Test for create a card

@@ -1,5 +1,7 @@
 import json
 import logging
+import allure
+import pytest
 from utils.logger import get_logger
 from config.config import url_base, auth_params
 from helper.rest_client import RestClient
@@ -7,6 +9,8 @@ from helper.validate_Response import ValidateResponse
 
 LOGGER = get_logger(__name__, logging.DEBUG)
 
+@allure.story("Lists")
+@allure.parent_suite("Lists")
 class TestLists:
     @classmethod
     def setup_class(cls):
@@ -18,6 +22,11 @@ class TestLists:
         cls.rest_client = RestClient()
         cls.validate = ValidateResponse()
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Create List")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_create_list(self, test_log_name, create_board):
         """
         Test for create a list
@@ -51,6 +60,11 @@ class TestLists:
         assert response_json["name"] == "List from Pycharm"
         self.validate.validate_response(response, "create_list")
 
+    @pytest.mark.acceptance
+    @pytest.mark.smoke
+    @allure.title("Test Get List")
+    @allure.tag("acceptance", "smoke")
+    @allure.label("owner", "Diana Rojas")
     def test_get_list(self, create_list, test_log_name):
         """
         Test for get a list
