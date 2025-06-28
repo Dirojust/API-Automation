@@ -56,7 +56,7 @@ class TestOrganizations:
 
     def test_get_organization(self, create_organization, test_log_name):
         """
-        Test for get a organization
+        Test for get an organization
         :param create_organization:   (str) Id of the organization
         :param test_log_name:    (str) log the test name
         """
@@ -114,7 +114,7 @@ class TestOrganizations:
 
     def test_delete_organization(self, create_organization, test_log_name):
         """
-        Test for delete a organization
+        Test for delete an organization
         :param create_organization:  (str) Id of the organization
         :param test_log_name:   (str) log the test name
         """
@@ -132,6 +132,31 @@ class TestOrganizations:
         # assertion
         assert response["status_code"] == 200
         self.validate.validate_response(response, "delete_organization")
+
+    # Functional tests
+    def test_create_organization_without_body(self, test_log_name):
+        """
+        Test for create an organization without body
+        :param test_log_name:  log the test name
+        """
+        # url for create the organization
+        url_create_organization = f"{url_base}organizations"
+        LOGGER.debug(f"url_create_organization: {url_create_organization}")
+
+        # call POST endpoint
+        response = self.rest_client.send_request(
+            method_name="POST",
+            url=url_create_organization,
+            params=auth_params
+        )
+
+        response_json = response["body"]
+        LOGGER.debug("Response: %s", json.dumps(response_json, indent=4))
+        LOGGER.debug("Status Code: %s", response["status_code"])
+
+        # assertion
+        self.validate.validate_response(response, "create_organization_without_body")
+
 
     @classmethod
     def teardown_class(cls):

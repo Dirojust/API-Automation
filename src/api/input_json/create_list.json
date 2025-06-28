@@ -1,0 +1,31 @@
+{
+  "body": {
+    "type": "object",
+    "properties": {
+      "id": { "type": "string" },
+      "name": { "type": "string" },
+      "closed": { "type": "boolean" },
+      "color": { "type": "null" },
+      "idBoard": { "type": "string" },
+      "pos": { "type": "number" },
+      "type": { "type": "null" },
+      "datasource": {
+        "type": "object",
+        "properties": {
+          "filter": { "type": "boolean" }
+        },
+        "required": ["filter"]
+      },
+      "limits": {
+        "type": "object"
+      }
+    },
+    "required": [
+      "id", "name", "closed", "color", "idBoard",
+      "pos", "type", "datasource", "limits"
+    ],
+    "additionalProperties": false
+  },
+  "status_code": 200,
+  "headers": {}
+}

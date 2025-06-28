@@ -47,6 +47,25 @@ def create_organization():
     yield organization_id
     delete_organization(organization_id)
 
+@pytest.fixture
+def create_list(create_board):
+    request_body = {
+        "name": "Test List from fixture",
+        "idBoard": f"{create_board}"
+    }
+
+    url_base = os.getenv("URL_BASE")
+    response = requests.post(
+        url=f"{url_base}lists",
+        params=auth_params,
+        json=request_body
+    )
+
+    LOGGER.debug(response.json())
+
+    list_id = response.json()["id"]
+    yield list_id
+
 def delete_organization(organization_id):
     url_delete_organization = f"{url_base}organizations/{organization_id}"
     LOGGER.debug(f"url_delete_organization: {url_delete_organization}")

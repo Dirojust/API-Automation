@@ -132,6 +132,31 @@ class TestBoards:
         # assertion
         self.validate.validate_response(response, "delete_board")
 
+
+    #Functional tests
+    def test_create_board_without_body(self, test_log_name):
+        """
+        Test for create a board without body
+        :param test_log_name:  log the test name
+        """
+        # url for create the board
+        url_create_board = f"{url_base}boards"
+        LOGGER.debug(f"url_create_board: {url_create_board}")
+
+        # call POST endpoint
+        response = self.rest_client.send_request(
+            method_name="POST",
+            url=url_create_board,
+            params=auth_params
+        )
+
+        response_json = response["body"]
+        LOGGER.debug("Response: %s", json.dumps(response_json, indent=4))
+        LOGGER.debug("Status Code: %s", response["status_code"])
+
+        self.validate.validate_response(response, "create_board_without_body")
+
+     #Teardown
     @classmethod
     def teardown_class(cls):
         """
