@@ -8,10 +8,14 @@ class ValidateResponse:
     def validate_response(self, actual_response, file_name):
         expected_response = self.read_input_data(f"src/api/input_json/{file_name}.json")
 
-        self.validate_value(actual_response["body"], expected_response, "body")
+        actual_body = actual_response.get("body", actual_response)
+        expected_body = expected_response.get("body", expected_response)
+
+        self.validate_value(actual_body, expected_body, "body")
+
         self.validate_value(
-            actual_response["status_code"],
-            expected_response["status_code"],
+            actual_response.get("status_code"),
+            expected_response.get("status_code"),
             "status_code",
         )
 

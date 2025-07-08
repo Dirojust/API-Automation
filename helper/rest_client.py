@@ -8,7 +8,7 @@ class RestClient:
     def __init__(self):
         self.session = requests.Session()
 
-    def send_request(self, method_name, url, params=None, body=None):
+    def send_request(self, method_name, url, params=None, body=None, use_data=False):
         response_data = {}
         methods = {
             "GET": self.session.get,
@@ -18,14 +18,28 @@ class RestClient:
         }
 
         try:
-            response = methods[method_name](
-                url=url,
-                params=params,
-                json=body,
-            )
+            if body:
+                if use_data:
+                    response = methods[method_name](
+                        url=url,
+                        params=params,
+                        data=body,
+                    )
+                else:
+                    response = methods[method_name](
+                        url=url,
+                        params=params,
+                        json=body,
+                    )
+            else:
+                response = methods[method_name](
+                    url=url,
+                    params=params,
+                )
             response.raise_for_status()
             response_data["body"] = response.json() if response.text else {"message": "No content"}
             response_data["status_code"] = response.status_code
+
 
         except requests.exceptions.HTTPError as e:
             LOGGER.error("HTTP Error: %s", e)
