@@ -68,6 +68,7 @@ def before_scenario(context, scenario):
             body=organization_body,
         )
         context.organization_id = response["body"]["id"]
+        LOGGER.debug(f"Appending ID {response['body']['id']} to organization_list")
         context.organization_list.append(context.organization_id)
         LOGGER.debug("Organization ID: %s", response["body"]["id"])
 
@@ -95,8 +96,7 @@ def after_scenario(context, scenario):
     :param scenario:
     :return:
     """
-    LOGGER.debug('Ending scenario: "%s"', scenario.name)
-
+    LOGGER.debug('AFTER SCENARIO: Ending scenario: "%s"', scenario.name)
 
 def after_feature(context, feature):
     """
@@ -107,27 +107,37 @@ def after_feature(context, feature):
     """
     LOGGER.debug("After feature")
 
-
 def after_all(context):
     """
     Tear down after all.
     :param context:
     :return:
     """
-    LOGGER.debug("After all - Cleanup all boards")
+    LOGGER.debug("After all - Cleanup all")
     for board_id in context.board_list:
+        LOGGER.debug(f"Deleting board ID: {board_id}")
         url_delete_board = f"{context.url_base}boards/{board_id}"
-        response = context.rest_client.send_request(
-            "DELETE", url=url_delete_board, params=auth_params
-        )
-        if response["status_code"] == 200:
-            LOGGER.debug("Board %s deleted", board_id)
+        try:
+            response = context.rest_client.send_request(
+                "DELETE", url=url_delete_board, params=auth_params
+            )
+            if response["status_code"] == 200:
+                LOGGER.debug("Board %s deleted", board_id)
+            else:
+                LOGGER.warning("Failed to delete board %s: status %s", board_id, response["status_code"])
+        except Exception as e:
+            LOGGER.error(f"Exception while deleting board {board_id}: {e}")
 
-    LOGGER.debug("After all - Cleanup all organizations")
     for organization_id in context.organization_list:
+        LOGGER.debug(f"Deleting organization ID: {organization_id}")
         url_delete_organization = f"{context.url_base}organizations/{organization_id}"
-        response = context.rest_client.send_request(
-            "DELETE", url=url_delete_organization, params=auth_params
-        )
-        if response["status_code"] == 200:
-            LOGGER.debug("Organization %s deleted", organization_id)
+        try:
+            response = context.rest_client.send_request(
+                "DELETE", url=url_delete_organization, params=auth_params
+            )
+            if response["status_code"] == 200:
+                LOGGER.debug("Organization %s deleted", organization_id)
+            else:
+                LOGGER.warning("Failed to delete organization %s: status %s", organization_id, response["status_code"])
+        except Exception as e:
+            LOGGER.error(f"Exception while deleting organization {organization_id}: {e}")
