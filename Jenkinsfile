@@ -18,6 +18,11 @@ pipeline {
                 bat 'call venv\\Scripts\\activate.bat && python -m pytest src/api -vs --alluredir reports/allure/allure-results --md-report --md-report-output md_report.md'
             }
         }
+        stage('Run Behave Tests') {
+            steps {
+                bat 'call venv\\Scripts\\activate.bat && python -m behave features -f allure_behave.formatter:AllureFormatter -o reports/allure/allure-results'
+            }
+        }
         stage('Reports') {
             steps {
                 allure([
