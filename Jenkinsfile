@@ -10,12 +10,7 @@ pipeline {
         stage('Setup virtualenv and install deps') {
             steps {
                 bat 'python -m venv venv'
-                bat 'call venv\\Scripts\\activate.bat && pip install --upgrade pip && pip install -r requirements.txt'
-            }
-        }
-        stage('Clean Reports') {
-            steps {
-                bat 'rmdir /s /q reports\\allure\\allure-results || exit 0'
+                bat 'call venv\\Scripts\\activate.bat && pip install -r requirements.txt'
             }
         }
         stage('Run Python Scripts') {
