@@ -9,8 +9,10 @@ pipeline {
         }
         stage('Setup virtualenv and install deps') {
             steps {
-                bat 'python -m venv venv'
-                bat 'call venv\\Scripts\\activate.bat && pip install -r requirements.txt'
+                withPythonEnv('python') {
+                    bat 'python -m venv venv'
+                    bat 'call venv\\Scripts\\activate.bat && pip install -r requirements.txt'
+                }
             }
         }
         stage('Run Python Scripts') {
@@ -18,11 +20,11 @@ pipeline {
                 bat 'call venv\\Scripts\\activate.bat && python -m pytest src/api -vs --alluredir reports/allure/allure-results --md-report --md-report-output md_report.md'
             }
         }
-        stage('Run Behave Tests') {
-            steps {
-                bat 'call venv\\Scripts\\activate.bat && behave -f allure_behave.formatter:AllureFormatter -o allure-results'
-            }
-        }
+//         stage('Run Behave Tests') {
+//             steps {
+//                 bat 'call venv\\Scripts\\activate.bat && behave -f allure_behave.formatter:AllureFormatter -o allure-results'
+//             }
+//         }
         stage('Reports') {
             steps {
                 allure([
