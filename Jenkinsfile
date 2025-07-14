@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Run Behave Tests') {
             steps {
-                bat 'call venv\\Scripts\\activate.bat && behave features -f allure_behave.formatter:AllureFormatter -o reports/allure/allure-results'
+                bat 'call venv\\Scripts\\activate.bat && behave -f allure_behave.formatter:AllureFormatter -o allure-results'
             }
         }
         stage('Reports') {
