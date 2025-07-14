@@ -9,10 +9,12 @@ pipeline {
         }
         stage('Setup virtualenv and install deps') {
             steps {
-                withPythonEnv('python') {
-                    bat 'python -m venv venv'
-                    bat 'call venv\\Scripts\\activate.bat && pip install -r requirements.txt'
-                }
+                bat '''
+                    python -m venv venv
+                    call venv\\Scripts\\activate.bat
+                    python -m pip install --upgrade pip
+                    pip install --force-reinstall -r requirements.txt
+                '''
             }
         }
         stage('Run Python Scripts') {
