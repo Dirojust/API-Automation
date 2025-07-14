@@ -3,5 +3,6 @@ python-dotenv==1.1.0
 requests==2.32.4
 jsonschema==4.24.0
 behave==1.2.6
-allure-behave==2.14.3
+allure-behave==2.8.1
+allure-python-commons==2.13.9
 pymsteams==0.2.5
