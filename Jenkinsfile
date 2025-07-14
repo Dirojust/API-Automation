@@ -17,6 +17,12 @@ pipeline {
                 '''
             }
         }
+        stage('Clean Reports') {
+            steps {
+                bat 'if exist reports\\allure\\allure-results (rmdir /s /q reports\\allure\\allure-results)'
+                bat 'mkdir reports\\allure\\allure-results'
+            }
+        }
         stage('Run Python Scripts') {
             steps {
                 bat 'call venv\\Scripts\\activate.bat && python -m pytest src/api -vs --alluredir reports/allure/allure-results --md-report --md-report-output md_report.md'
