@@ -8,6 +8,7 @@ Feature:  Suite for boards endpoint from TRELLO API
   Scenario: Scenario to get a Board
     When user calls "GET" method to "get" "boards" endpoint
     Then the status code is 200
+    And the response is validated with "get_board" file
 
   @normal
   @allure.label.owner:Diana_Rojas
@@ -21,6 +22,7 @@ Feature:  Suite for boards endpoint from TRELLO API
     }
   """
   Then the status code is 200
+    And the response is validated with "create_board" file
 
   @normal
   @allure.label.owner:Diana_Rojas
@@ -34,6 +36,7 @@ Feature:  Suite for boards endpoint from TRELLO API
     }
   """
   Then the status code is 200
+    And the response is validated with "update_board" file
 
   @normal
   @allure.label.owner:Diana_Rojas
@@ -42,6 +45,7 @@ Feature:  Suite for boards endpoint from TRELLO API
   Scenario: Scenario to delete a board
     When user calls "DELETE" method to "delete" "boards" endpoint
     Then the status code is 200
+    And the response is validated with "delete_board" file
 
   @normal
   @allure.label.owner:Diana_Rojas
