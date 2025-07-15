@@ -13,7 +13,7 @@ def before_all(context):
     :param context:  Object  stores test data
     """
 
-    LOGGER.debug("Before all tests")
+    LOGGER.debug(" --------------------------- Before all tests --------------------------- ")
     context.url_base = url_base
     context.rest_client = RestClient()
     context.board_list = []
@@ -28,7 +28,7 @@ def before_feature(context, feature):
     :param feature:
     :return:
     """
-    LOGGER.debug("Before feature")
+    LOGGER.debug(' --------------------------- Before feature --------------------------- ')
 
 
 def before_scenario(context, scenario):
@@ -37,7 +37,7 @@ def before_scenario(context, scenario):
     :param context:
     :param scenario:
     """
-    LOGGER.debug('Starting scenario: "%s"', scenario.name)
+    LOGGER.debug(' --------------------------- Starting scenario: "%s" --------------------------- ', scenario.name)
 
     # create a board
     LOGGER.debug("SCENARIO TAGS %s", scenario.tags)
@@ -96,7 +96,7 @@ def after_scenario(context, scenario):
     :param scenario:
     :return:
     """
-    LOGGER.debug('AFTER SCENARIO: Ending scenario: "%s"', scenario.name)
+    LOGGER.debug(' --------------------------- Ending scenario: "%s" --------------------------- ', scenario.name)
 
 def after_feature(context, feature):
     """
@@ -105,7 +105,7 @@ def after_feature(context, feature):
     :param feature:
     :return:
     """
-    LOGGER.debug("After feature")
+    LOGGER.debug(" --------------------------- After feature --------------------------- ")
 
 def after_all(context):
     """
@@ -113,7 +113,7 @@ def after_all(context):
     :param context:
     :return:
     """
-    LOGGER.debug("After all - Cleanup all")
+    LOGGER.debug(" --------------------------- After all - Cleanup all --------------------------- ")
     for board_id in context.board_list:
         LOGGER.debug(f"Deleting board ID: {board_id}")
         url_delete_board = f"{context.url_base}boards/{board_id}"
