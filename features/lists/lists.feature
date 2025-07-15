@@ -8,6 +8,7 @@ Feature: Suite for lists endpoint from TRELLO API
   Scenario: Scenario to get a List
     When user calls "GET" method to "get" "lists" endpoint
     Then the status code is 200
+    And the response is validated with "get_list" file
 
   @normal
   @allure.label.owner:Diana_Rojas
@@ -22,3 +23,4 @@ Feature: Suite for lists endpoint from TRELLO API
     }
   """
   Then the status code is 200
+  And the response is validated with "create_list" file
